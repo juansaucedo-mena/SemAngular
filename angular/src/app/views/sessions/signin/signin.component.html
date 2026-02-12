@@ -1,0 +1,61 @@
+<div class="page-wrap h-full slate">
+    <div class="session-form-hold">
+        <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+        <mat-card>
+            <mat-card-content>
+                <div class="text-center pt-8 pb-16">
+                    <!--suppress CheckImageSize -->
+                    <img width="60px" src="assets/images/egret.png" alt="">
+                    <p class="text-muted m-0">Iniciar sesión en tu cuenta</p>
+                </div>
+
+                <p *ngIf="errorMsg" class="text-center"><small class="text-red">{{errorMsg}}</small></p>
+
+                <form [formGroup]="signInFormGroup" (ngSubmit)="signin()">
+                    <div class="">
+                        <mat-form-field class="full-width">
+                            <input
+                                matInput
+                                name="username"
+                                [formControl]="username"
+                                placeholder="Usuario"
+                                value="">
+                        </mat-form-field>
+                        <small
+                            *ngIf="signInFormGroup.controls['username'].hasError('required') && signInFormGroup.controls['username'].touched"
+                            class="form-error-msg"> Usuario es obligatorio </small>
+                    </div>
+
+                    <div class="">
+                        <mat-form-field class="full-width">
+                            <input
+                                type="password"
+                                name="password"
+                                matInput
+                                [formControl]="password"
+                                placeholder="Contraseña"
+                                value="">
+                        </mat-form-field>
+                        <small
+                            *ngIf="password.hasError('required') && password.touched"
+                            class="form-error-msg"> Contraseña es obligatoria </small>
+                    </div>
+
+                    <div class="pb-16">
+                        <mat-checkbox
+                            name="rememberMe"
+                            [formControl]="rememberMe"
+                            class="pb-16">Recordar equipo
+                        </mat-checkbox>
+                    </div>
+
+                    <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="signInFormGroup.invalid">
+                        Iniciar sesión
+                    </button>
+
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+

@@ -1,0 +1,21 @@
+import { Routes } from "@angular/router";
+import { SigninComponent } from "./signin/signin.component";
+import {NotFoundComponent} from "./not-found/not-found.component";
+
+export const SessionsRoutes: Routes = [
+  {
+    path: "",
+    children: [
+        {
+            path: 'login',
+            component: SigninComponent,
+            data: { title: "Signin" }
+        },
+        {
+            path: "404",
+            component: NotFoundComponent,
+            data: { title: "Not Found" }
+        }
+    ]
+  }
+];
