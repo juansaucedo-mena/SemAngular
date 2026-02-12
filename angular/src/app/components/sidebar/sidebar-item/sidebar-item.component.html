@@ -1,0 +1,36 @@
+@if (hasChildren) {
+  <button class="sidebar-item parent" [style.padding-left]="paddingLeft" (click)="toggle()">
+    <span class="item-name">{{ module().name }}</span>
+    <span class="arrow" [class.expanded]="expanded()">&#9654;</span>
+  </button>
+  @if (expanded()) {
+    <div class="children">
+      @for (child of module().children; track child.id) {
+        <app-sidebar-item [module]="child" [depth]="depth() + 1" [showStar]="showStar()" />
+      }
+    </div>
+  }
+} @else {
+  @if (module().route) {
+    <a class="sidebar-item leaf"
+       [routerLink]="module().route"
+       routerLinkActive="active"
+       [style.padding-left]="paddingLeft">
+      <span class="item-name">{{ module().name }}</span>
+      @if (showStar()) {
+        <button class="star-btn" [class.favorited]="isFavorite" (click)="onStarClick($event)">
+          {{ isFavorite ? '&#9733;' : '&#9734;' }}
+        </button>
+      }
+    </a>
+  } @else {
+    <span class="sidebar-item leaf no-route" [style.padding-left]="paddingLeft">
+      <span class="item-name">{{ module().name }}</span>
+      @if (showStar()) {
+        <button class="star-btn" [class.favorited]="isFavorite" (click)="onStarClick($event)">
+          {{ isFavorite ? '&#9733;' : '&#9734;' }}
+        </button>
+      }
+    </span>
+  }
+}

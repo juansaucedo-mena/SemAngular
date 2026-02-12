@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Module;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,10 +18,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@sem.com',
             'password' => bcrypt('password'),
+        ]);
+
+        $this->call(ModuleSeeder::class);
+
+        $dashboard = Module::where('name', 'Dashboard')->first();
+        $reporteGeneral = Module::where('name', 'Reporte General')->first();
+
+        $admin->favoriteModules()->attach([
+            $dashboard->id,
+            $reporteGeneral->id,
         ]);
     }
 }

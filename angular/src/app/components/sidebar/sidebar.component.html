@@ -1,0 +1,32 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <span class="brand">SEM</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    @if (favoriteModules.length > 0) {
+      <span class="section-label">Favoritos</span>
+      @for (module of favoriteModules; track module.id) {
+        <app-sidebar-item [module]="module" [depth]="0" [showStar]="false" />
+      }
+      <div class="section-divider"></div>
+    }
+
+    <span class="section-label">Menu</span>
+    @for (module of modules; track module.id) {
+      <app-sidebar-item [module]="module" [depth]="0" [showStar]="true" />
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    @if (user) {
+      <div class="user-info">
+        <div class="avatar">{{ user.name.charAt(0).toUpperCase() }}</div>
+        <span class="user-name">{{ user.name }}</span>
+      </div>
+    }
+    <button class="logout-btn" (click)="logout()">
+      Cerrar Sesion
+    </button>
+  </div>
+</aside>

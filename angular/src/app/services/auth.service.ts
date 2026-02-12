@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { FavoriteService } from './favorite.service';
+import { ModuleService } from './module.service';
 
 interface LoginResponse {
   user: any;
@@ -18,7 +20,12 @@ export class AuthService {
 
   isLoggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private moduleService: ModuleService,
+    private favoriteService: FavoriteService
+  ) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
@@ -58,6 +65,8 @@ export class AuthService {
 
   private clearSession(): void {
     localStorage.removeItem(this.tokenKey);
+    this.moduleService.clearCache();
+    this.favoriteService.clearFavorites();
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }

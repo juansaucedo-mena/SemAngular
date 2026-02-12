@@ -1,1 +1,14 @@
-<router-outlet />
+@if (authService.isLoggedIn$ | async) {
+  <div class="app-layout" [class.sidebar-open]="sidebarOpen()">
+    <app-sidebar />
+    <div class="backdrop" [class.visible]="sidebarOpen()" (click)="onBackdropClick()"></div>
+    <div class="main-area">
+      <app-topbar [pageTitle]="pageTitle()" (toggleSidebar)="toggleSidebar()" />
+      <div class="content">
+        <router-outlet />
+      </div>
+    </div>
+  </div>
+} @else {
+  <router-outlet />
+}
